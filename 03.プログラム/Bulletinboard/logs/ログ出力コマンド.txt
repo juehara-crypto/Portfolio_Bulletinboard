@@ -1,0 +1,17 @@
+findstr /i "LoginAction" C:\workspace\Bulletinboard\logs\appLog.log > C:\workspace\Bulletinboard\logs\LoginAction.log
+
+findstr /i "InsertBulletinboardAction" C:\workspace\Bulletinboard\logs\appLog.log > C:\workspace\Bulletinboard\logs\InsertBulletinboardAction.log
+
+
+findstr /i "UpdateUserAction" C:\workspace\Bulletinboard\logs\appLog.log > C:\workspace\Bulletinboard\logs\UpdateUserAction.log
+
+findstr /i "EditThreadAction " C:\workspace\Bulletinboard\logs\appLog.log > C:\workspace\Bulletinboard\logs\EditThreadAction.log
+
+
+findstr /i "UpdateThreadAction" C:\workspace\Bulletinboard\logs\appLog.log > C:\workspace\Bulletinboard\logs\UpdateThreadAction.log
+
+
+findstr /i " LoginAction" C:\workspace\Bulletinboard\logs\appLog.log > C:\workspace\Bulletinboard\logs\LoginActionLog.log
+
+
+ 

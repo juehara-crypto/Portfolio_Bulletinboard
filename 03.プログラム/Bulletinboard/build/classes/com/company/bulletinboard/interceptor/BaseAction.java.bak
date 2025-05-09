@@ -1,0 +1,46 @@
+package com.company.bulletinboard.interceptor;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * BaseAction
+ * 各ActionクラスのBaseクラス
+ */
+public abstract class BaseAction extends ActionSupport {
+
+	/** Logger **/
+	//元クラスから移植。子クラスで参照するためアクセス修飾子をprotectedに設定
+	protected Logger logger = LogManager.getLogger();
+
+	/**
+	 * executeメソッド
+	 * @return 処理結果の文字列
+	 */
+	public String execute() {
+
+		/** 処理結果 */
+		//メイン処理結果を反映させるため、初期値をエラーとしておく
+		String result = "error";
+
+		// 開始ログ
+		logger.info("処理開始：" + this.getClass().getName());
+
+		//メイン処理(各クラスにて実装)
+		result = mainProc();
+
+		// 終了ログ
+		logger.info("処理終了：" + this.getClass().getName());
+
+		return result;
+	}
+
+	/**
+	 * 継承先のクラスで実装されるメイン処理
+	 * @return 処理結果の文字列
+	 */
+
+	abstract public String mainProc();
+}

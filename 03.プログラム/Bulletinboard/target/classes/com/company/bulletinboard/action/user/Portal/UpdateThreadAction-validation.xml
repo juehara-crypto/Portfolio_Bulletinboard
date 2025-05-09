@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+    "file:///C:/workspace/Bulletinboard/WebContent/WEB-INF/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<!-- スレッドタイトルのバリデーション -->
+	<field name="thread.thread_title">
+
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>スレッドタイトルが入力されていません。</message>
+		</field-validator>
+
+		<!-- スレッドタイト最大文字数チェック -->
+		<field-validator type="stringlength">
+			<param name="maxLength">50</param>
+			<message>スレッドタイトルは50文字以下にしてください</message>
+		</field-validator>
+	</field>
+</validators>

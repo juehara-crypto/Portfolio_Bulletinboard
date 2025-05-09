@@ -1,0 +1,73 @@
+package com.company.bulletinboard.action.admin.user;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.company.bulletinboard.dao.DatabaseConnectionManager;
+import com.company.bulletinboard.interceptor.BaseAction;
+import com.company.bulletinboard.model.User;
+
+public class MoveUserManagementAction extends BaseAction {
+	// ロガーの初期化: ログメッセージを記録するためのLoggerインスタンスを作成します
+	private static final Logger logger = LogManager.getLogger(MoveUserManagementAction.class);
+	// ユーザーデータを保管する為に、「users」アレイリストを作成
+	private List<User> users = new ArrayList<>();
+
+	// この行はmainProcメソッドの最後の行で、getAllUsers()メソッドの実効結果をresultに代入し、その戻り値を
+	// mainProcの戻り値として返している。
+	// この戻り値は、Struts2フレームワークによって次に表示するビューを決定するために使用する。
+	// よって、getAllUsers()の戻り値は「SUCCESS」か「ERROR」になる
+	@Override
+	public String mainProc() {
+		logger.info("MoveUserManagementAction: mainProc() start");
+		String result = getAllUsers();
+		logger.info("MoveUserManagementAction: mainProc() end with result: " + result);
+		return result;
+	}
+
+	//getAllUsers()メソッドにて、対象のDBに接続しクエリメソッドを実行
+	public String getAllUsers() {
+		try (Connection connection = DatabaseConnectionManager.getConnection()) {
+			String sql = "SELECT * FROM users";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			// クエリ結果を「resultSet」に保存する
+			ResultSet resultSet = preparedStatement.executeQuery();
+			// 古いデータをクリアする
+			users.clear();
+
+			//  「User」Beanクラスをインスタンス化し
+			// ’user’オブジェクトとして作成。この「user」に一旦データを保持する
+			// resultSet.nextメソッドにて各行にカーソルを移動し、「resultSet」に存在する各カラムの値を、
+			// 'user'オブジェクトの各変数に代入
+			while (resultSet.next()) {
+				User user = new User();
+				user.setUser_id(resultSet.getInt("user_id"));
+				user.setUser_name(resultSet.getString("user_name"));
+				user.setPassword(resultSet.getString("password"));
+				user.setAuth_type(resultSet.getInt("auth_type"));
+				user.setDelete_flag(resultSet.getInt("delete_flag"));
+				user.setDelete_day(resultSet.getString("delete_day"));
+				// 'user'オブジェクトに入っている各値を、「users」リストに保存する
+				users.add(user);
+			}
+		} catch (SQLException e) {
+			logger.error("Database connection error", e);
+			addActionError("Database error: " + e.getMessage());
+			return ERROR;
+		}
+		logger.info("Database connection and data retrieval successful.");
+		return SUCCESS;
+	}
+
+	// 「users」リストをUserManagementScreen.jspにリターンする
+	public List<User> getUsers() {
+		return users;
+	}
+}

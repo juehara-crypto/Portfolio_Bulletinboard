@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+    "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<!-- ユーザー名のバリデーション -->
+	<field name="user.user_name">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring" short-circuit="true">
+			<message>ユーザー名が入力されていません。</message>
+		</field-validator>
+
+		<!-- 最大文字数チェック -->
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="maxLength">50</param>
+			<message>ユーザー名は50文字以下にしてください。</message>
+		</field-validator>
+
+	</field>
+
+	<!-- パスワードのバリデーション -->
+	<field name="user.password">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring" short-circuit="true">
+			<message>パスワードが入力されていません。</message>
+		</field-validator>
+
+		<!-- 文字数の範囲チェック -->
+		<field-validator type="stringlength" short-circuit="true">
+			<param name="minLength">8</param>
+			<param name="maxLength">64</param>
+			<message>パスワードは8文字以上64文字以下で入力してください。</message>
+		</field-validator>
+
+	</field>
+</validators>

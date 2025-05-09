@@ -1,0 +1,56 @@
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5p %t %c - %m%n" />
+		</Console>
+		<RollingFile name="File"
+			fileName="C:/workspace/Bulletinboard/logs/appLog.log"
+			filePattern="C:/workspace/Bulletinboard/logs/appLog-%d{yyyy-MM-dd}-%i.log">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] %-5p %t %c - %m%n" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<!-- <SizeBasedTriggeringPolicy size="100MB" /> -->
+			</Policies>
+			<DefaultRolloverStrategy max="3" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.company.bulletinboard" level="debug"
+			additivity="true">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Logger>
+		<Logger name="com.company.bulletinboard.action" level="debug"
+			additivity="true">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Logger>
+		<Logger name="com.company.bulletinboard.action.ListAction"
+			level="DEBUG" additivity="true">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Logger>
+		<Logger
+			name="com.company.bulletinboard.dao.LoggingConnectionWrapper"
+			level="debug" additivity="true">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Logger>
+
+		<Logger
+			name="com.company.bulletinboard.dao.DatabaseConnectionManager"
+			level="debug" additivity="true">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Logger>
+
+
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="File" />
+		</Root>
+	</Loggers>
+</Configuration>

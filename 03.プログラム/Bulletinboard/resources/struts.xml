@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="default" namespace="/" extends="struts-default">
+
+		<!-- インターセプターの設定 -->
+		<interceptors>
+			<!-- カスタムインターセプターの定義。BaseActionを利用する。 -->
+			<interceptor name="baseAction"
+				class="com.company.bulletinboard.interceptor.BaseAction" />
+			<!-- デフォルトのインターセプタースタックの設定にカスタムインターセプターを追加 -->
+			<interceptor-stack name="defaultStack">
+				<!-- まずカスタムインターセプターを適用 -->
+				<interceptor-ref name="baseAction" />
+				<!-- 次にデフォルトのインターセプタースタックを適用 -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+
+		<!-- ログイン用のアクション -->
+		<action name="login"
+			class="com.company.bulletinboard.action.login.LoginAction">
+			<result name="login">/login.jsp</result>
+			<result name="admin">/view/ManagementMenu.jsp</result>
+			<result name="user">/view/userPortal.jsp</result>
+			<result name="input">/login.jsp</result> <!-- バリデーションエラーが発生した際、ログイン画面に戻るための設定 -->
+		</action>
+
+		<!-- ログアウト用のアクション -->
+		<action name="logout"
+			class="com.company.bulletinboard.action.login.LogoutAction">
+			<result name="success">/login.jsp</result>
+		</action>
+
+		<!-- 「管理メニューへ戻る」リンクのアクション -->
+		<action name="goToManagementMenu"
+			class="com.company.bulletinboard.action.goToManagementMenuAction">
+			<result name="success" type="redirect">/view/ManagementMenu.jsp</result>
+		</action>
+
+		<!-- 掲示板管理画面遷移用のアクション -->
+		<action name="BulletinboardManagementScreen"
+			class="com.company.bulletinboard.action.admin.bulletinboard.MoveBulletinboardManagementAction">
+			<result name="success">/view/BulletinboardManagementScreen.jsp</result>
+			<result name="error">/view/ErrorPage.jsp</result>
+		</action>
+
+		<!-- 掲示板編集用のアクション(既存データをフォームに表示) -->
+		<action name="EditBulletinboard"
+			class="com.company.bulletinboard.action.admin.bulletinboard.EditBulletinboardAction">
+			<result name="success">/view/BulletinboardEditScreen.jsp</result>
+			<result name="error">/view/ErrorPage.jsp</result>
+			<!-- <result name="error">/view/error.jsp</result> -->
+		</action>
+		<!-- 掲示板編集用のアクション(変更したデータをDBに更新処理) -->
+		<action name="UpdateBulletinboard"
+			class="com.company.bulletinboard.action.admin.bulletinboard.UpdateBulletinboardAction">
+			<result name="success" type="redirectAction">BulletinboardManagementScreen
+			</result>
+			<result name="input">/view/BulletinboardEditScreen.jsp</result> <!-- バリデーションエラーが発生した際、掲示板管理画面に戻るための設定 -->
+			<!-- <result name="error">/view/error.jsp</result> -->
+			<result name="error">/view/ErrorPage.jsp</result>
+		</action>
+
+		<!-- 掲示板作成用のアクション(掲示板作成画面への遷移処理) -->
+		<action name="CreateBulletinboardScreen"
+			class="com.company.bulletinboard.action.admin.bulletinboard.MoveCreateBulletinboardAction">
+			<result name="success">/view/CreateBulletinboardScreen.jsp</result>
+			<result name="error">/view/ErrorPage.jsp</result>
+
+		</action>
+
+		<!-- 掲示板作成用のアクション(DBへの登録処理) -->
+		<action name="InsertBulletinboard"
+			class="com.company.bulletinboard.action.admin.bulletinboard.InsertBulletinboardAction">
+			<result name="success" type="redirectAction">BulletinboardManagementScreen
+			</result>
+			<!-- <result name="error">/view/CreateBulletinboardScreen.jsp</result> -->
+			<result name="input">/view/CreateBulletinboardScreen.jsp</result> <!-- バリデーションエラーが発生した際、掲示板作成画面に戻るための設定 -->
+			<result name="error">/view/ErrorPage.jsp</result> <!-- DB接続エラーが発生した際の画面遷移先設定 -->
+			
+		</action>
+
+		<!-- 掲示板削除用のアクション -->
+		<action name="DeleteBulletinboard"
+			class="com.company.bulletinboard.action.admin.bulletinboard.DeleteBulletinboardAction">
+			<result name="success" type="redirectAction">BulletinboardManagementScreen
+			</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+
+		<!-- ユーザー管理画面遷移用のアクション -->
+		<action name="UserManagementScreen"
+			class="com.company.bulletinboard.action.admin.user.MoveUserManagementAction">
+			<result name="success">/view/UserManagementScreen.jsp</result>
+			<result name="error">/view/ErrorPage.jsp</result>
+		</action>
+
+		<!-- ユーザー編集用のアクション(既存データをフォームに表示) -->
+		<action name="EditUser"
+			class="com.company.bulletinboard.action.admin.user.EditUserAction">
+			<result name="success">/view/UserEditScreen.jsp</result>
+		</action>
+		<!-- ユーザー編集用のアクション(変更したデータをDBに更新処理) -->
+		<action name="UpdateUser"
+			class="com.company.bulletinboard.action.admin.user.UpdateUserAction">
+			<result name="success" type="redirectAction">UserManagementScreen</result>
+			<result name="input">/view/UserEditScreen.jsp</result> <!-- バリデーションエラーが発生した際、ユーザー編集画面に戻るための設定 -->
+			<result name="error">/view/UserEditScreen.jsp</result>
+		</action>
+
+		<!-- ユーザー削除用のアクション -->
+		<action name="DeleteUser"
+			class="com.company.bulletinboard.action.admin.user.DeleteUserAction">
+			<result name="success" type="redirectAction">UserManagementScreen</result>
+		</action>
+
+		<!-- ユーザー作成用のアクション(画面遷移用) -->
+		<action name="CreateUserScreen"
+			class="com.company.bulletinboard.action.admin.user.MoveCreateUserAction">
+			<result name="success">/view/CreateUserScreen.jsp</result>
+		</action>
+		<!-- ユーザー作成用のアクション(DBへの登録処理) -->
+		<action name="InsertUser"
+			class="com.company.bulletinboard.action.admin.user.InsertUserAction">
+			<result name="success" type="redirectAction">UserManagementScreen </result>
+			<result name="input">/view/CreateUserScreen.jsp</result> <!-- バリデーションエラーが発生した際、ユーザー作成画面に戻るための設定 -->
+		</action>
+
+		<!-- 投稿管理用のアクション(管理画面遷移用) -->
+		<action name="PostManagementScreen"
+			class="com.company.bulletinboard.action.admin.post.MovePostManagementAction">
+			<result name="success">/view/PostManagementScreen.jsp</result>
+		</action>
+
+
+		<!-- 掲示板管理用 -->
+		<!-- CancelActionからSUCCESSが返された後、listアクションに処理をリダイレクトする -->
+		<action name="cancel"
+			class="com.company.bulletinboard.action.CancelAction"
+			method="mainProc">
+			<result name="cancel" type="redirect">list</result>
+			<result name="success" type="redirect">list</result>
+		</action>
+		<!-- 掲示板管理画面の一覧を再読み込みするアクションの定義 -->
+		<action name="list"
+			class="com.company.bulletinboard.action.ListAction" method="mainProc">
+			<result name="success">/view/BulletinboardManagementScreen.jsp</result>
+		</action>
+
+
+		<!-- ユーザー管理用 -->
+		<!-- UserCancelActionからSUCCESSが返された後、userlistアクションに処理をリダイレクトする -->
+		<action name="usercancel"
+			class="com.company.bulletinboard.action.UserCancelAction"
+			method="mainProc">
+			<result name="usercancel" type="redirect">userlist</result>
+			<result name="success" type="redirect">userlist</result>
+		</action>
+		<!-- ユーザー管理画面の一覧を再読み込みするアクションの定義 -->
+		<action name="userlist"
+			class="com.company.bulletinboard.action.UserListAction"
+			method="mainProc">
+			<result name="success">/view/UserManagementScreen.jsp</result>
+		</action>
+
+		<!--利用者ポータルに掲示板一覧を表示するアクションの定義 -->
+		<action name="getBulletinboards"
+			class="com.company.bulletinboard.action.admin.bulletinboard.MoveBulletinboardManagementAction"
+			method="mainProc">
+			<result name="success">/view/userPortal.jsp</result>
+		</action>
+
+		<!-- 利用者ポータルにスレッド一覧を表示するアクションの定義 -->
+		<action name="getThreads"
+			class="com.company.bulletinboard.action.user.Portal.GetThreadAction"
+			method="mainProc">
+			<result name="success">/view/userPortal.jsp</result>
+		</action>
+
+		<!-- 利用者ポータル画面にユーザー個別のスレッド一覧を表示するアクションの定義 -->
+		<action name="getThreadsById"
+			class="com.company.bulletinboard.action.user.Portal.GetThreadByIdAction"
+			method="mainProc">
+			<result name="success">/view/userPortal.jsp</result>
+		</action>
+
+		<!-- 利用者ポータル画面にユーザー個別の投稿一覧を表示するアクションの定義 -->
+		<action name="getPostsById"
+			class="com.company.bulletinboard.action.user.Portal.GetPostByIdAction"
+			method="mainProc">
+			<result name="success">/view/userPortal.jsp</result>
+		</action>
+
+		<!-- 利用者ポータル画面のユーザー個別の投稿一覧から該当の投稿に遷移するアクションの定義 -->
+		<action name="UserPostThreadDetail"
+			class="com.company.bulletinboard.action.user.Portal.UserPostThreadDetailAction"
+			method="mainProc">
+			<result name="success">/view/threadDetailScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!--掲示板詳細画面へ遷移するアクションの定義 -->
+		<!--掲示板詳細画面に掲示板個別の内容と、掲示板に紐づくスレッドの一覧を表示する -->
+		<action name="boardDetail"
+			class="com.company.bulletinboard.action.user.Portal.BoardDetailAction">
+			<result name="success">/view/BulletinboardDetailScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+
+		<!-- スレッド作成処理① -->
+		<!-- 処理成功時には、CreateThreadScreenアクションにリダイレクトし、bulletinboard_idパラメータを引き継ぐ -->
+		<action name="MoveCreateThread"
+			class="com.company.bulletinboard.action.user.Portal.MoveCreateThreadAction"
+			method="mainProc">
+			<result name="success" type="redirectAction">
+				<param name="actionName">CreateThreadScreen</param>
+				<param name="bulletinboard_id">${bulletinboard_id}</param>
+			</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+		<!-- スレッド作成処理② -->
+		<!-- MoveCreateThreadActionクラスから、処理がリダイレクションされbulletinboard_idパラメータが引き継がれる -->
+		<action name="CreateThreadScreen"
+			class="com.company.bulletinboard.action.user.Portal.CreateThreadScreenAction"
+			method="mainProc">
+			<result name="success">/view/CreateThreadScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+		<!-- スレッド作成処理③ -->
+		<!-- InsertThreadActionからSUCCESSが返された後、threadlistアクションに処理をリダイレクトする -->
+		<action name="InsertThread"
+			class="com.company.bulletinboard.action.user.Portal.InsertThreadAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">threadlist</param>
+				<param name="bulletinboard_id">${bulletinboard_id}</param>
+			</result>
+			<result name="input">/view/CreateThreadScreen.jsp</result> <!-- バリデーションエラーが発生した際、スレッド作成画面に戻るための設定 -->
+		</action>
+		<!-- スレッド作成処理成功後、掲示板詳細画面のスレッド一覧を再読み込みするアクションの定義 -->
+		<action name="threadlist"
+			class="com.company.bulletinboard.action.user.Portal.ThreadListAction"
+			method="mainProc">
+			<result name="success">/view/BulletinboardDetailScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!--スレッド詳細画面へ遷移するアクションの定義 -->
+		<!--掲示板詳細画面のスレッド一覧からリンクをクリックすると以下のアクション処理が呼び出される -->
+		<action name="threadDetail"
+			class="com.company.bulletinboard.action.user.Portal.ThreadDetailAction"
+			method="mainProc">
+			<result name="success">/view/threadDetailScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!-- スレッド編集用のアクション(既存データをフォームに表示) -->
+		<action name="EditThread"
+			class="com.company.bulletinboard.action.user.Portal.EditThreadAction">
+			<result name="success">/view/ThreadEditScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+		<!-- スレッド編集用のアクション(変更したデータをDBに更新処理) -->
+		<action name="UpdateThread"
+			class="com.company.bulletinboard.action.user.Portal.UpdateThreadAction">
+			<result name="success" type="redirect">postlist</result>
+			<result name="input">/view/ThreadEditScreen.jsp</result> <!-- バリデーションエラーが発生した際、スレッド編集画面に戻るための設定 -->
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!-- スレッド詳細画面の投稿一覧再読み込みアクションの定義 -->
+		<action name="postlist"
+			class="com.company.bulletinboard.action.user.Portal.PostListAction"
+			method="mainProc">
+			<result name="success">/view/threadDetailScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!-- スレッド編集/削除画面用のキャンセルボタン -->
+		<!-- ThreadCancelActionからSUCCESSが返された後、postlistアクションに処理をリダイレクトする -->
+		<action name="threadcancel"
+			class="com.company.bulletinboard.action.user.Portal.ThreadCancelAction"
+			method="mainProc">
+			<result name="threadcancel" type="redirect">postlist</result>
+			<result name="success" type="redirect">postlist</result>
+		</action>
+
+		<!-- スレッド詳細画面のTOPへ戻るボタンアクション -->
+		<action name="moveToUserPortal"
+			class="com.company.bulletinboard.action.user.Portal.MoveToUserPortalAction"
+			method="mainProc">
+			<result name="success">/view/userPortal.jsp</result>
+		</action>
+
+		<!-- 投稿書込み処理用のアクション -->
+		<!-- PostActionからSUCCESSが返された後、postlistアクションに処理をリダイレクトする -->
+		<action name="post"
+			class="com.company.bulletinboard.action.user.Portal.PostAction">
+			<result name="success" type="redirect">postlist</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!-- 投稿編集用のアクション(既存データをフォームに表示) -->
+		<action name="EditPost"
+			class="com.company.bulletinboard.action.user.Portal.EditPostAction">
+			<result name="success">/view/PostEditScreen.jsp</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+		<!-- 投稿編集用のアクション(変更したデータをDBに更新処理) -->
+		<action name="UpdatePost"
+			class="com.company.bulletinboard.action.user.Portal.UpdatePostAction">
+			<result name="success" type="redirect">postlist</result>
+			<result name="input">/view/PostEditScreen.jsp</result> <!-- バリデーションエラーが発生した際、投稿編集画面に戻るための設定 -->
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!-- 投稿削除用のアクション -->
+		<action name="DeletePost"
+			class="com.company.bulletinboard.action.user.Portal.DeletePostAction">
+			<result name="success" type="redirect">postlist</result>
+			<result name="error">/view/error.jsp</result>
+		</action>
+
+		<!-- 投稿削編集/削除画面のキャンセルボタン用アクション -->
+		<!-- PostCancelActionからSUCCESSが返された後、postlistアクションに処理をリダイレクトする -->
+		<action name="postcancel"
+			class="com.company.bulletinboard.action.user.Portal.PostCancelAction"
+			method="mainProc">
+			<result name="postcancel" type="redirect">postlist</result>
+			<result name="success" type="redirect">postlist</result>
+		</action>
+
+	</package>
+</struts>

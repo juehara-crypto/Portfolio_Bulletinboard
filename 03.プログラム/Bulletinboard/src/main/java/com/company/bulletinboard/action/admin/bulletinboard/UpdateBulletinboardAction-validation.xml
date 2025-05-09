@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+    "file:///C:/workspace/Bulletinboard/WebContent/WEB-INF/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<!-- 掲示板タイトルのバリデーション -->
+	<field name="bulletinboard.bulletinboard_title">
+
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>掲示板タイトルが入力されていません。</message>
+		</field-validator>
+
+		<!-- 掲示板タイト最大文字数チェック -->
+		<field-validator type="stringlength">
+			<param name="maxLength">50</param>
+			<message>掲示板タイトルは50文字以下にしてください</message>
+		</field-validator>
+	</field>
+
+
+	<!-- 掲示板本文のバリデーション -->
+	<field name="bulletinboard.bulletinboard_content">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>掲示板本文が入力されていません。</message>
+		</field-validator>
+
+		<!-- 掲示板本文の文字数制限チェック -->
+		<field-validator type="stringlength">
+			<param name="maxLength">250</param>
+			<message>掲示板本文は250文字以下にしてください。</message>
+		</field-validator>
+	</field>
+
+	<!-- 掲示板削除日のバリデーション -->
+	<field name="bulletinboard.bulletinboard_delete_day">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>掲示板削除日が入力されていません。</message>
+		</field-validator>
+		
+	</field>
+
+
+
+</validators>

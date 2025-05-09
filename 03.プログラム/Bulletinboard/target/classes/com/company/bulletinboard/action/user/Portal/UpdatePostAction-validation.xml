@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+    "file:///C:/workspace/Bulletinboard/WebContent/WEB-INF/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<!-- 投稿内容のバリデーション -->
+	<field name="post.post_content">
+
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>投稿内容が入力されていません。</message>
+		</field-validator>
+
+		<!-- 投稿内容最大文字数チェック -->
+		<field-validator type="stringlength">
+			<param name="maxLength">250</param>
+			<message>投稿内容は250文字以下にしてください</message>
+		</field-validator>
+	</field>
+</validators>

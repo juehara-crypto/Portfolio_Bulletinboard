@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+    "file:///C:/workspace/Bulletinboard/WebContent/WEB-INF/xwork-validator-1.0.3.dtd">
+
+<validators>
+	<!-- ユーザー名のバリデーション -->
+	<field name="user.user_name">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>ユーザー名が入力されていません。</message>
+		</field-validator>
+
+		<!-- 最大文字数チェック -->
+		<field-validator type="stringlength">
+			<param name="maxLength">50</param>
+			<message>ユーザー名は50文字以下にしてください。</message>
+		</field-validator>
+	</field>
+
+	<!-- パスワードのバリデーション -->
+	<field name="user.password">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>パスワードが入力されていません。</message>
+		</field-validator>
+
+		<!-- 文字数の範囲チェック -->
+		<field-validator type="stringlength">
+			<param name="minLength">8</param>
+			<param name="maxLength">64</param>
+			<message>パスワードは8文字以上64文字以下で入力してください。</message>
+		</field-validator>
+	</field>
+
+	<!-- ユーザー削除日のバリデーション -->
+	<field name="user.delete_day">
+		<!-- 必須チェック -->
+		<field-validator type="requiredstring">
+			<message>ユーザー削除日が入力されていません。</message>
+		</field-validator>
+
+	</field>
+
+</validators>

@@ -1,0 +1,37 @@
+package com.company.bulletinboard.action.login;
+
+import com.company.bulletinboard.interceptor.BaseAction;
+
+// ログイン機能作成中。以下の処理は仮置きです。
+public class LoginAction extends BaseAction {
+    private String name;
+    private String password;
+
+    @Override
+    public String mainProc() {
+        // name:test, password:test の場合のみログイン成功
+        if ("test".equals(getName()) && "test".equals(getPassword())) {
+            return "success";
+        } else {
+            return "error";
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+}
+
